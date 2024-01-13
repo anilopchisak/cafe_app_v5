@@ -43,14 +43,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES':[
-    'rest_framework.permission.AllowAny']}
+# REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES':[
+#     'rest_framework.permission.AllowAny']}
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',
+# ]
 
 ROOT_URLCONF = 'cafe_app.urls'
 
