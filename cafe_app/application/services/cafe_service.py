@@ -92,35 +92,35 @@ class CafeService:
                                                payment_type=payment_type)
         return result
 
-    def get_order_by_id(self, order_id: int) -> Optional[OrderWithProductsSerializer]:
+    def get_order_by_id(self, order_id: int) -> Optional[OrderWithProductsSerializerGET]:
         result = get_order_by_id(order_id)
-        # print(result)
         if result is not None:
-            # products_in_order = get_products_from_order(result.id)
-            # products = []
-            # for product in products_in_order:
-            #     # print(product)
-            #     products.append(product.product_name)
-            # customer_name = (get_customer_by_order(result.id)).customer_name
-            # payment_type = (get_payment_type_by_order(result.id)).payment_type
-            # print(result.id, customer_name, products, result.order_cost, result.date_time, payment_type)
-            # id = result.id
-            # customer = customer_name
-            # order_cost = result.order_cost
-            # date_time = result.date_time
-            # order = create_order_with_products_serializer(id, customer, products, order_cost, date_time, payment_type)
-            order = OrderSerializer(result)
-            # order = OrderWithProductsSerializer()
-            # order_dict = {
-            #     'res_id': result.id,
-            #     }
-            # result.id, customer_name, products, result.order_cost, result.date_time, payment_type)
-            # order = OrderWithProductsSerializer(id=result.id, customer=customer_name, products=products,
-            #                                     order_cost=result.order_cost, date_time=result.date_time,
-            #                                     payment_type=payment_type)
-            # order.create_order_with_products_serializer(print(order.data)
-            # order = create_order_with_products_serializer(result.id, customer_name, products, result.order_cost, result.date_time, payment_type)
-            return order
+            # result_data = result.data
+            products_in_order = get_products_from_order(result.id)
+            products = []
+            for product in products_in_order:
+                ProductWithCost = ProductWithCostSerializer(data={
+                    'product_name': product.product_name,
+                    'product_cost': product.final_cost
+                })
+                if ProductWithCost.is_valid():
+                    products.append(ProductWithCost.validated_data)
+            customer_name = get_customer_by_order(result.id).customer_name
+            payment_type = get_payment_type_by_order(result.id).payment_type
+            data = {'order_id': result.id,
+                    'customer': customer_name,
+                    'products': products,
+                    'order_cost': result.order_cost,
+                    'payment_type': payment_type,
+                    'date_time': result.date_time}
+            # print(data)
+            return OrderWithProductsSerializerGET(data=data)
+            # order_id=result.id,
+            # customer=customer_name,
+            # products=products,
+            # order_cost=result.order_cost,
+            # date_time=result.date_time,
+            #  payment_type=payment_type)
         return result
 
     def get_all_orders_by_customer(self, name: str) -> OrderSerializer:

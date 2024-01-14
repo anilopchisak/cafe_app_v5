@@ -46,6 +46,22 @@ class OrderWithProductsSerializer(serializers.Serializer):
     payment_type = serializers.ChoiceField(choices=TYPES)
 
 
+class ProductWithCostSerializer(serializers.Serializer):
+    product_name = serializers.CharField(max_length=20)
+    product_cost = serializers.DecimalField(max_digits=5, decimal_places=2)
+
+class OrderWithProductsSerializerGET(serializers.Serializer):
+    order_id = serializers.IntegerField()
+    customer = serializers.CharField(max_length=20)
+    order_cost = serializers.DecimalField(max_digits=7, decimal_places=2)
+    products = serializers.ListField(
+        child=ProductWithCostSerializer()
+        # child=serializers.CharField(max_length=20),
+        # child=DecimalField(max_digits=5, decimal_places=2)
+    )
+    date_time = serializers.DateTimeField()
+    payment_type = serializers.CharField(max_length=20)
+
 class OrderSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     # customer_name = serializers.CharField(max_length=20)
@@ -59,3 +75,8 @@ class PaymentSerializer(serializers.Serializer):
 
 class PaymentTypeSerializer(serializers.Serializer):
     payment_type = serializers.CharField(max_length=20)
+
+class OrderProductsSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    order_id = serializers.IntegerField()
+    product_id = serializers.IntegerField()
