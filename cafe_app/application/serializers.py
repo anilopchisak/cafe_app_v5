@@ -20,6 +20,7 @@ class ProductSerializer(serializers.Serializer):
     quantity_in_stock = serializers.IntegerField()
     prime_cost = serializers.DecimalField(max_digits=5, decimal_places=2)
     final_cost = serializers.DecimalField(max_digits=5, decimal_places=2)
+    img = serializers.CharField()
 
 
 class OrderWithProductsSerializer(serializers.Serializer):
