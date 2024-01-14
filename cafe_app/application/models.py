@@ -50,7 +50,7 @@ class Product(Model):
     quantity_in_stock = IntegerField('In stock', null=False)
     prime_cost = DecimalField('Prime cost', null=False, max_digits=5, decimal_places=2)
     final_cost = DecimalField('Full cost', null=False, max_digits=5, decimal_places=2)
-    img = ImageField(upload_to='products_img', verbose_name='Фото продукта', blank=True)
+    img = TextField('Product image', null=False, unique=False, blank=True)
 
     class Meta:
         db_table = 'product'

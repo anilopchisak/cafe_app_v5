@@ -26,6 +26,15 @@ class GetDelAllOrders(GenericAPIView):
         service.delete_all_orders_by_customer(customer_name)
         return Response(status=status.HTTP_200_OK)
 
+class GetOrderById(GenericAPIView):
+    serializer_class = OrderSerializer
+    renderer_classes = [JSONRenderer]
+
+    def get(self, request: Request, id: int) -> Response:
+        """ Получение информации о заказе """
+        response = service.get_order_by_id(id)
+        return Response(data=response.data)
+
 class PostOrder(GenericAPIView):
     serializer_class = OrderWithProductsSerializer
     renderer_classes = [JSONRenderer]
@@ -39,7 +48,7 @@ class PostOrder(GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PutProductInOrder(GenericAPIView):
-    # serializer_class = ProductSerializer
+    serializer_class = ProductSerializer
     renderer_classes = [JSONRenderer]
 
     def put(self, request: Request, order_id: int, product_name: str) -> Response:
